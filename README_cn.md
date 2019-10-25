@@ -127,7 +127,7 @@
     -   _host\_ip_：Atlas 200 DK开发者板的IP地址。
 
     -   model\_mode代表模型文件及依赖软件的部署方式，默认为internet。
-        -   local：若Mind Studio所在Ubuntu系统未连接网络，请使用local模式，执行此命令前，需要参考[公共代码库下载](#zh-cn_topic_0182554631_section158977311307)将依赖的代码库下载到“/sample-facialrecognition/script“目录下。
+        -   local：若Mind Studio所在Ubuntu系统未连接网络，请使用local模式，执行此命令前，需要参考[公共代码库下载](#zh-cn_topic_0182554631_section158977311307)将依赖的代码库下载到“sample-facialrecognition/script“目录下。
         -   internet：若Mind Studio所在Ubuntu系统已连接网络，请使用internet模式，在线下载依赖代码库。
 
 
