@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 
 # project information
-project(sample_videoanalysisperson)
+project(sample_facialrecognition)
 
 # Compile options
 add_compile_options(-std=c++11)
@@ -16,7 +16,7 @@ set(CMAKE_INSTALL_PREFIX "../../../run")
 set(CMAKE_OUTPUT_DIR "out")
 set(CMAKE_CXX_FLAGS_RELEASE "-fPIC -O2 -Wall")
 
-execute_process(COMMAND bash ../../../src/prepare_graph.sh RESULT_VARIABLE ret)
+execute_process(COMMAND bash ../../../script/deploy.sh RESULT_VARIABLE ret)
 IF(${ret})
    message(FATAL_ERROR "some error occured!")
 ENDIF(${ret})
@@ -29,9 +29,9 @@ $ENV{DDK_PATH}/include/third_party/protobuf/include
 $ENV{DDK_PATH}/include/third_party/cereal/include
 $ENV{DDK_PATH}/include/libc_sec/include
 $ENV{HOME}/ascend_ddk/include
-$ENV{HOME}/ascend_ddk/include/third_party/ffmpeg
 $ENV{DDK_PATH}/include/third_party/opencv/include
-common age_inference face_detection gender_inference object_detection object_detection_post pedestrian_attr_inference video_analysis_post video_decode
+
+Custom FaceDetection FaceFeatureMask FacePostProcess FaceRecognition FaceRegister MindCamera
 )
 
 if(type STREQUAL host)
@@ -39,17 +39,16 @@ if(type STREQUAL host)
         add_compile_options(-DIS_RC)
     endif()
 
-    # add host lib path
     link_directories($ENV{NPU_HOST_LIB} $ENV{HOME}/ascend_ddk/host/lib $ENV{HOME}/ascend_ddk/device/lib /home/HwHiAiUser/HIAI_PROJECTS/ascend_lib $ENV{NPU_DEVICE_LIB})
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
     add_executable(main Main.cpp)
-    add_library(Host SHARED object_detection_post/object_detection_post.cpp video_analysis_post/video_analysis_post.cpp video_decode/video_decode.cpp video_analysis_post/video_analysis_message.pb.cc)
+    add_library(Host SHARED FacePostProcess/face_post_process.cpp MindCamera/Mind_camera.cpp FaceRegister/face_register.cpp FaceRegister/facial_recognition_message.pb.cc)
 
 
     if(target STREQUAL "RC")
         target_link_libraries(main matrixdaemon mmpa pthread dl rt)
-        target_link_libraries(Host matrixdaemon hiai_common presenteragent media_mini avcodec avformat avdevice avutil swresample avfilter swscale ascend_ezdvpp)
+        target_link_libraries(Host matrixdaemon hiai_common media_mini presenteragent Dvpp_api Dvpp_jpeg_decoder Dvpp_jpeg_encoder Dvpp_vpc ascend_ezdvpp)
     else()
         target_link_libraries(main matrix mmpa pthread dl rt)
         target_link_libraries(Host matrix hiai_common)
@@ -62,10 +61,10 @@ else()
     # add device lib path
     link_directories($ENV{NPU_HOST_LIB} $ENV{HOME}/ascend_ddk/host/lib $ENV{HOME}/ascend_ddk/device/lib /home/HwHiAiUser/HIAI_PROJECTS/ascend_lib $ENV{NPU_DEVICE_LIB})
 
-    add_library(Device SHARED age_inference/age_inference.cpp object_detection/object_detection.cpp pedestrian_attr_inference/pedestrian_attr_inference.cpp gender_inference/gender_inference.cpp face_detection/face_detection.cpp)
+    add_library(Device SHARED FaceDetection/face_detection.cpp FaceFeatureMask/face_feature_mask.cpp FaceRecognition/face_recognition.cpp)
 
     if(target STREQUAL "RC")
-        target_link_libraries(Device Dvpp_api Dvpp_jpeg_decoder Dvpp_jpeg_encoder Dvpp_vpc idedaemon hiai_common ascend_ezdvpp presenteragent)
+        target_link_libraries(Device Dvpp_api Dvpp_jpeg_decoder Dvpp_jpeg_encoder Dvpp_vpc idedaemon hiai_common ascend_ezdvpp opencv_world media_mini hiai_server)
     else()
         target_link_libraries(Device Dvpp_api Dvpp_jpeg_decoder Dvpp_jpeg_encoder Dvpp_vpc idedaemon)
     endif()

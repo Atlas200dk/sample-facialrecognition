@@ -15,12 +15,12 @@
 #include <libgen.h>
 #include <string.h>
 
-static const uint32_t GRAPH_ID = 237816406;
+static const uint32_t GRAPH_ID = 1057997826;
 int flag = 1;
 std::mutex mt;
 /**
 * @ingroup FasterRcnnDataRecvInterface
-* @brief RecvData RecvData Recursion，save the file
+* @brief RecvData RecvData???????
 * @param [in]
 */
 HIAI_StatusT CustomDataRecvInterface::RecvData
@@ -55,7 +55,7 @@ HIAI_StatusT HIAI_InitAndStartGraph()
         HIAI_ENGINE_LOG("Fail to get the graph-%u", GRAPH_ID);
         return status;
     }
-	int leaf_array[1] = {654};  //leaf node id
+	int leaf_array[1] = {713};  //leaf node id
 
 	for(int i = 0;i < 1;i++){
 		hiai::EnginePortID target_port_config;
@@ -96,12 +96,16 @@ int main(int argc, char* argv[])
     }
 
     // send data to SourceEngine 0 port
-    hiai::EnginePortID engine_id;
-    engine_id.graph_id = GRAPH_ID;
-    engine_id.engine_id = 388;
-    engine_id.port_id = 0;
-    std::shared_ptr<std::string> src_data(new std::string);
-    graph->SendData(engine_id, "string", std::static_pointer_cast<void>(src_data));
+    int src_array[2] = {424, 966};  //source node id
+	for(int i = 0;i < 2;i++){
+		hiai::EnginePortID engine_id;
+        engine_id.graph_id = GRAPH_ID;
+        engine_id.engine_id = src_array[i];
+        engine_id.port_id = 0;
+        std::shared_ptr<std::string> src_data(new std::string);
+        graph->SendData(engine_id, "string", std::static_pointer_cast<void>(src_data));
+	}
+
 	for (;;)
     {
         if(flag <= 0)

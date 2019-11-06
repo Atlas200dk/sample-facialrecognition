@@ -43,14 +43,13 @@ WEB_SERVER = None
 APP_SERVER = None
 RUN_SERVER = None
 SERVER_TYPE = ""
-USAGE_INFO = "python3 prensenter_server.py [-h] --app \n\t\t\t\t{video_analysis_person}"
+USAGE_INFO = "python3 prensenter_server.py [-h] --app \n\t\t\t\t{facial_recognition}"
 
+FACIAL_RECOGNITION_MAP = {"web_server": "facial_recognition.src.web",
+                          "app_server": "facial_recognition.src.facial_recognition_server"
+                          }
 
-VIDEO_ANALYSIS_MAP = {"web_server": "video_analysis.src.web",
-                      "app_server": "video_analysis.src.video_analysis_server"
-                     }
-
-APP_CONF_MAP = {"video_analysis_person": VIDEO_ANALYSIS_MAP}
+APP_CONF_MAP = {"facial_recognition": FACIAL_RECOGNITION_MAP}
 
 
 def arg_parse():
@@ -61,7 +60,7 @@ def arg_parse():
 
     parser = argparse.ArgumentParser(usage=USAGE_INFO)
     parser.add_argument('--app', type=str, required=True,
-                        choices=['video_analysis_person'],
+                        choices=['facial_recognition'],
                         help="Application type corresponding to Presenter Server.")
     args = parser.parse_args()
     SERVER_TYPE = args.app
