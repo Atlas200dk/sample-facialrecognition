@@ -31,7 +31,7 @@
  * ============================================================================
  */
 
-#include "face_register.h"
+
 #include <memory>
 #include <fstream>
 #include <sstream>
@@ -43,12 +43,16 @@
 #include "hiaiengine/data_type_reg.h"
 #include "face_recognition_params.h"
 #include "ascenddk/ascend_ezdvpp/dvpp_process.h"
+#include "face_register_listen.h"
+#include "face_register.h"
 
 using hiai::Engine;
 using namespace hiai;
 using namespace std;
 using namespace ascend::presenter;
 using namespace ascend::presenter::facial_recognition;
+
+HIAI_REGISTER_DATA_TYPE("FaceRegisterData", FaceRegisterData);
 
 bool FaceRegister::IsInvalidIp(const string &ip) {
     regex re(kIpRegularExpression);
@@ -132,142 +136,137 @@ HIAI_StatusT FaceRegister::Init(const hiai::AIConfig &config,
         HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "register app failed.");
         return HIAI_ERROR;
     }
-
+    StartFaceRegisterListen(agent_channel);
+    HIAI_ENGINE_LOG("faceregister ok");
     return HIAI_OK;
 }
 
-bool FaceRegister::DoRegisterProcess() {
-    // get agent channel
-    Channel* agent_channel = PresenterChannels::GetInstance().GetChannel();
-    if (agent_channel == nullptr) {
+bool FaceRegister::DoRegisterProcess(shared_ptr<FaceRegisterData> face_register_info) {
+   // get agent channel
+
+    HIAI_StatusT hiai_ret = HIAI_OK;
+    HIAI_ENGINE_LOG("start  process register req\n");
+    //  construct registered request Message and read message
+    FaceInfo* face_register_req = (FaceInfo*) (face_register_info->response_rec.get());
+    if (face_register_req == nullptr) {
         HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
-                        "get agent channel to send failed.");
+                        "[DoRegisterProcess]face_register_req   is nullptr");
         return false;
     }
 
-    HIAI_StatusT hiai_ret = HIAI_OK;
-    while (1) {
-        // construct registered request Message and read message
-        unique_ptr < google::protobuf::Message > response_rec;
-        PresenterErrorCode agent_ret = agent_channel->ReceiveMessage(response_rec);
-        if (agent_ret == PresenterErrorCode::kNone) {
-            FaceInfo* face_register_req = (FaceInfo*) (response_rec.get());
-            if (face_register_req == nullptr) {
-                HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
-                                "[DoRegisterProcess]face_register_req is nullptr");
-                continue;
+    //  get face id and image
+    uint32_t face_image_size =  face_register_req->image().size();
+    const char* face_image_buff = face_register_req->image().c_str();
+    int face_id_size =  face_register_req->id().size();
+    HIAI_ENGINE_LOG("faceregister face_id = %s,face_image_size  = %d,face_id_size = %d",
+                    face_register_req->id().c_str(), face_image_size,
+                    face_id_size);
+
+    //  ready to send registered info to next engine
+    shared_ptr < FaceRecognitionInfo > pobj = make_shared<FaceRecognitionInfo>();
+
+    //  judge size of face id
+    if (face_id_size > kMaxFaceIdLength) {
+        HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
+                        "[DoRegisterProcess]length of   face_id beyond range");
+        pobj->err_info.err_code =   AppErrorCode::kRegister;
+        pobj->err_info.err_msg = "length of face_id beyond range";
+
+        // send description information to next engine
+        do {
+            hiai_ret    = SendData(0, "FaceRecognitionInfo", static_pointer_cast<void>(pobj));
+            // when queue full, sleep
+            if (hiai_ret    == HIAI_QUEUE_FULL) {
+                HIAI_ENGINE_LOG("[DoRegisterProcess]queue full, sleep 200ms");
             }
+        }while (hiai_ret == HIAI_QUEUE_FULL);
 
-            // get face id and image
-            uint32_t face_image_size = face_register_req->image().size();
-            const char* face_image_buff = face_register_req->image().c_str();
-            int face_id_size = face_register_req->id().size();
+        if (hiai_ret != HIAI_OK) {
+            HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
+                            "[DoRegisterProcess]    SendData failed.");
+        }
+         HIAI_ENGINE_LOG("faceregister 3\n");
+        return false;
+    }
 
-            HIAI_ENGINE_LOG("face_id = %s,face_image_size = %d,face_id_size = %d",
-                            face_register_req->id().c_str(), face_image_size,
-                            face_id_size);
+    //  use dvpp convert jpg image to yuv
+    ascend::utils::DvppJpegDInPara  dvpp_to_yuv_para;
+    dvpp_to_yuv_para.is_convert_yuv420  = true;
+    ascend::utils::DvppProcess  dvpp_yuv_process(dvpp_to_yuv_para);
+    ascend::utils::DvppJpegDOutput  dvpp_out_data = { 0 };
+    int ret_dvpp =  dvpp_yuv_process.DvppJpegDProc(face_image_buff, face_image_size, &dvpp_out_data);
+    if (ret_dvpp != kDvppOperationOk) {
+        HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
+                        "[DoRegisterProcess]fail to convert jpg to yuv,ret_dvpp =   %d",
+                        ret_dvpp);
+        pobj->err_info.err_code =   AppErrorCode::kRegister;
+        pobj->err_info.err_msg = "fail to   convert jpg to yuv";
 
-            // ready to send registered info to next engine
-            shared_ptr < FaceRecognitionInfo > pobj =  make_shared<FaceRecognitionInfo>();
+        // send description information to next engine
+        do {
+            hiai_ret = SendData(0, "FaceRecognitionInfo", static_pointer_cast<void>(pobj));
 
-            // judge size of face id
-            if (face_id_size > kMaxFaceIdLength) {
-                HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
-                                "[DoRegisterProcess]length of face_id beyond range");
-                pobj->err_info.err_code = AppErrorCode::kRegister;
-                pobj->err_info.err_msg = "length of face_id beyond range";
-
-                // send description information to next engine
-                do {
-                    hiai_ret = SendData(0, "FaceRecognitionInfo", static_pointer_cast<void>(pobj));
-
-                    // when queue full, sleep
-                    if (hiai_ret == HIAI_QUEUE_FULL) {
-                        HIAI_ENGINE_LOG("[DoRegisterProcess]queue full, sleep 200ms");
-                        usleep (kSleepInterval);
-                    }
-                } while (hiai_ret == HIAI_QUEUE_FULL);
-
-                if (hiai_ret != HIAI_OK) {
-                    HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "[DoRegisterProcess] SendData failed.");
-                }
-                continue;
+            // when queue full, sleep
+            if (hiai_ret == HIAI_QUEUE_FULL) {
+                HIAI_ENGINE_LOG("[DoRegisterProcess]queue full, sleep 200ms");
             }
+        } while (hiai_ret == HIAI_QUEUE_FULL);
+        if (hiai_ret != HIAI_OK) {
+            HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "[DoRegisterProcess]    SendData failed.");
+        }
 
-            // use dvpp convert jpg image to yuv
-            ascend::utils::DvppJpegDInPara dvpp_to_yuv_para;
-            dvpp_to_yuv_para.is_convert_yuv420 = true;
-            ascend::utils::DvppProcess dvpp_yuv_process(dvpp_to_yuv_para);
-            ascend::utils::DvppJpegDOutput dvpp_out_data = { 0 };
-            int ret_dvpp = dvpp_yuv_process.DvppJpegDProc(face_image_buff, face_image_size, &dvpp_out_data);
-            if (ret_dvpp != kDvppOperationOk) {
-                HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
-                                "[DoRegisterProcess]fail to convert jpg to yuv,ret_dvpp = %d", ret_dvpp);
-                pobj->err_info.err_code = AppErrorCode::kRegister;
-                pobj->err_info.err_msg = "fail to convert jpg to yuv";
+        return false;
+    }
 
-                // send description information to next engine
-                do {
-                    hiai_ret = SendData(0, "FaceRecognitionInfo", static_pointer_cast<void>(pobj));
+    //  1 indicate the image from register
+    pobj->frame.image_source =  1;
+    pobj->frame.face_id = face_register_req->id();
+    pobj->frame.org_img_format  = dvpp_out_data.image_format;
+    //  true indicate the image is aligned
+    pobj->frame.img_aligned = true;
 
-                    // when queue full, sleep
-                    if (hiai_ret == HIAI_QUEUE_FULL) {
-                        HIAI_ENGINE_LOG("[DoRegisterProcess]queue full, sleep 200ms");
-                        usleep (kSleepInterval);
-                    }
-                } while (hiai_ret == HIAI_QUEUE_FULL);
+    //  set up origin image infomation, change the width and height to odd
+    pobj->org_img.width =
+        (dvpp_out_data.width % 2 == 0) ?
+            dvpp_out_data.width : (dvpp_out_data.width -    1);
+    pobj->org_img.height =
+        (dvpp_out_data.height   % 2 == 0) ?
+            dvpp_out_data.height    : (dvpp_out_data.height - 1);
+    pobj->org_img.height_step = dvpp_out_data.aligned_height;
+    pobj->org_img.width_step =  dvpp_out_data.aligned_width;
+    pobj->org_img.size  = dvpp_out_data.buffer_size;
+    pobj->org_img.data.reset(dvpp_out_data.buffer,
+                            default_delete<u_int8_t[]>());
+    pobj->err_info.err_code = AppErrorCode::kNone;
 
-                if (hiai_ret != HIAI_OK) {
-                    HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "[DoRegisterProcess] SendData failed.");
-                }
-                continue;
-            }
+    //  send registered infomation to next engine
+    do {
+        hiai_ret = SendData(0, "FaceRecognitionInfo",
+                            static_pointer_cast<void>(pobj));
 
-            // 1 indicate the image from register
-            pobj->frame.image_source = 1;
-            pobj->frame.face_id = face_register_req->id();
-            pobj->frame.org_img_format = dvpp_out_data.image_format;
-            // true indicate the image is aligned
-            pobj->frame.img_aligned = true;
-
-            // set up origin image infomation, change the width and height to odd
-            pobj->org_img.width =
-                (dvpp_out_data.width % 2 == 0) ?
-                    dvpp_out_data.width : (dvpp_out_data.width - 1);
-            pobj->org_img.height =
-                (dvpp_out_data.height % 2 == 0) ?
-                    dvpp_out_data.height : (dvpp_out_data.height - 1);
-            pobj->org_img.height_step = dvpp_out_data.aligned_height;
-            pobj->org_img.width_step = dvpp_out_data.aligned_width;
-            pobj->org_img.size = dvpp_out_data.buffer_size;
-            pobj->org_img.data.reset(dvpp_out_data.buffer,
-                                    default_delete<u_int8_t[]>());
-            pobj->err_info.err_code = AppErrorCode::kNone;
-
-            // send registered infomation to next engine
-            do {
-                hiai_ret = SendData(0, "FaceRecognitionInfo", static_pointer_cast<void>(pobj));
-
-                // when queue full, sleep
-                if (hiai_ret == HIAI_QUEUE_FULL) {
-                    HIAI_ENGINE_LOG("queue full, sleep 200ms");
-                    usleep (kSleepInterval);
-                }
-            } while (hiai_ret == HIAI_QUEUE_FULL);
-
-            if (hiai_ret != HIAI_OK) {
-                HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "[FaceRegister] SendData failed.");
-            }
-        } else {
+        // when queue   full, sleep
+        if (hiai_ret == HIAI_QUEUE_FULL) {
+            HIAI_ENGINE_LOG("queue full,    sleep 200ms");
             usleep (kSleepInterval);
         }
+    } while (hiai_ret == HIAI_QUEUE_FULL);
+
+    if (hiai_ret != HIAI_OK) {
+        HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "[FaceRegister] SendData failed.");      
+        return false;
     }
+    HIAI_ENGINE_LOG("Process face register  successful");
+    return  true;
 }
 
 HIAI_IMPL_ENGINE_PROCESS("face_register", FaceRegister, INPUT_SIZE)
 {
-    if (!DoRegisterProcess()) {
-        HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT, "DoRegisterProcess failed.");
+    shared_ptr<FaceRegisterData> face_register_info = static_pointer_cast <FaceRegisterData > (arg0);
+    HIAI_ENGINE_LOG("faceregister receive register  req\n");
+    if  (!DoRegisterProcess(face_register_info)) {
+    HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
+        "DoRegisterProcess failed.");
     }
-    return HIAI_OK;
+    HIAI_ENGINE_LOG("faceregister process end\n");
+    return  HIAI_OK;
 }

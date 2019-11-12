@@ -132,7 +132,7 @@ public:
    * @brief  handle registered image and send to next engine
    * @return  success --> true ; fail --> false
    */
-  bool DoRegisterProcess();
+  bool DoRegisterProcess(shared_ptr<FaceRegisterData>  face_register_info);
 
   /**
    * @brief  reload Engine Process
