@@ -217,7 +217,7 @@ class FacialRecognitionServer(PresenterSocketServer):
             ret = self._process_register_app(conn, msg_data)
         # process image request, receive an image data from presenter agent
         elif msg_name == pb2._FACERESULT.full_name:
-            ret = self._process_face_result(msg_data)
+            ret = self._process_face_result(conn, msg_data)
         elif msg_name == pb2._FRAMEINFO.full_name:
             ret = self._process_frame_info(conn, msg_data)
         elif msg_name == presenter_message_pb2._OPENCHANNELREQUEST.full_name:
@@ -313,8 +313,17 @@ class FacialRecognitionServer(PresenterSocketServer):
             return True
 
         return False
+    
+    def _send_common_respone(self, conn, error_code, message):
 
-    def _process_face_result(self, msg_data):
+        response = pb2.CommonResponse()
+        msg_name = pb2._COMMONRESPONSE.full_name	
+        response.ret = error_code
+        response.message = message
+        self.send_message(conn, response, msg_name)
+   
+
+    def _process_face_result(self, conn, msg_data):
         """
         Description: process face_result message
         Input:
@@ -322,12 +331,14 @@ class FacialRecognitionServer(PresenterSocketServer):
         Returns: True or False
         """
         face_result = pb2.FaceResult()
+
         if not self._parse_protobuf(face_result, msg_data):
             return False
 
         face_id = face_result.id
         if not self.register_dict.get(face_id):
             logging.warning("face id %s is already deleted", face_id)
+            self._send_common_respone(conn, pb2.kErrorNone, "face id is already deleted")
             return True
 
         ret = face_result.response.ret
@@ -337,6 +348,7 @@ class FacialRecognitionServer(PresenterSocketServer):
             status = FACE_REGISTER_STATUS_FAILED
             message = "Get face feature failed"
             self._update_register_dict(face_id, status, message)
+            self._send_common_respone(conn, pb2.kErrorOther, message)
             return True
 
         face_num = len(face_result.feature)
@@ -344,10 +356,12 @@ class FacialRecognitionServer(PresenterSocketServer):
             status = FACE_REGISTER_STATUS_FAILED
             message = "No face recognized"
             self._update_register_dict(face_id, status, message)
+            ret = False
         elif face_num > 1:
             status = FACE_REGISTER_STATUS_FAILED
             message = "{} faces recognized".format(face_num)
             self._update_register_dict(face_id, status, message)
+            ret = False
         else:
             box = face_result.feature[0].box
             face_coordinate = [box.lt_x, box.lt_y, box.rb_x, box.rb_x]
@@ -357,11 +371,14 @@ class FacialRecognitionServer(PresenterSocketServer):
                 status = FACE_REGISTER_STATUS_FAILED
                 message = "Face feature vector length invalid"
                 self._update_register_dict(face_id, status, message)
-                return True
-            return self._save_face_feature(face_id, face_coordinate,
-                                           feature_vector)
-
-        return True
+                ret = True
+            else:
+                ret, message = self._save_face_feature(face_id, face_coordinate, feature_vector)
+				
+        error_code = pb2.kErrorNone if (ret == True) else pb2.kErrorOther
+        self._send_common_respone(conn, error_code, message)
+		
+        return ret
 
     def _update_register_dict(self, face_id, status, message):
         """
@@ -397,14 +414,14 @@ class FacialRecognitionServer(PresenterSocketServer):
                 status = FACE_REGISTER_STATUS_SUCCEED
                 message = "Successful registration"
                 self._update_register_dict(face_id, status, message)
-                return True
+                return True, message
             except (OSError, JSONDecodeError) as exp:
                 logging.error(exp)
                 del self.registered_faces[face_id]
                 status = FACE_REGISTER_STATUS_FAILED
                 message = "save face feature to json file failed"
                 self._update_register_dict(face_id, status, message)
-                return False
+                return False, message
 
     def _process_open_channel(self, conn, msg_data):
         """

@@ -128,7 +128,7 @@ HIAI_StatusT FacePostProcess::SendFeature(
 HIAI_StatusT FacePostProcess::ReplyFeature(
     const shared_ptr<FaceRecognitionInfo> &info) {
   // get channel for reply feature (data from register)
-  Channel *channel = PresenterChannels::GetInstance().GetChannel();
+  Channel *channel = PresenterChannels::GetInstance().GetPresenterChannel();
   if (channel == nullptr) {
     HIAI_ENGINE_LOG(HIAI_ENGINE_RUN_ARGS_NOT_RIGHT,
                     "get channel for send FaceResult failed.");
