@@ -103,7 +103,7 @@
         >-   **_1.31.X.X_**是[1](#zh-cn_topic_0203223340_zh-cn_topic_0203223294_li61417158198)中查询到的DDK版本号，需要根据查询结果对应填写，如**1.31.T15.B150**  
         >-   如果此环境变量已经添加，则此步骤可跳过。  
 
-        输入**:wq!**保存退出。
+        输入:wq!保存退出。
 
         执行如下命令使环境变量生效。
 
@@ -130,7 +130,7 @@
                 -   Nodes配置中的“Input Node:data“中的N:8表示人脸识别程序，每次处理8张人脸，此参数需要与“graph\_template.config”中的对应模型的“batch\_size“的值保持一致。
                 -   AIPP配置中的“Input Image Format“：输入图片的格式，此处选择RGB888\_U8。
                 -   AIPP配置中的“Input Image Size“：因为输入图片格式为RGB8888\_U8，此处不需要做128\*16对齐，直接使用模型要求的宽和高即可，即96与112。
-                -   AIPP配置中的**“Model Image Format”**：模型图片的格式，此处选择BGR888\_U8。
+                -   AIPP配置中的“Model Image Format”：模型图片的格式，此处选择BGR888\_U8。
                 -   AIPP配置中的“Mean Less\[B|G|R\]“：此模型训练使用的图片的均值，可从此模型的sphereface\_model.prototxt文件中获取。
                 -   AIPP配置中的“Multiplying Factor\[B|G|R\]“：此模型训练使用的图片的乘系数，可从此模型的sphereface\_model.prototxt文件中获取，即scale的值。
 
