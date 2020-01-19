@@ -252,7 +252,7 @@
 
 ## 公共代码库下载<a name="zh-cn_topic_0182554631_section158977311307"></a>
 
-将依赖的软件库下载到“/sample-facialrecognition/script“目录下。
+将依赖的软件库下载到“sample-facialrecognition/script“目录下。
 
 **表 2**  依赖代码库下载
 
