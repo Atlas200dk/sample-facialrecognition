@@ -17,11 +17,11 @@
 
 1.  <a name="zh-cn_topic_0182554631_li953280133816"></a>获取源码包。
 
-    将[https://gitee.com/Atlas200DK/sample-facialrecognition](https://gitee.com/Atlas200DK/sample-facialrecognition)仓中的代码以Mind Studio安装用户下载至Mind Studio所在Ubuntu服务器的任意目录，例如代码存放路径为：_/home/ascend/sample-facialrecognition_。
+    将[https://gitee.com/Atlas200DK/sample-facialrecognition](https://gitee.com/Atlas200DK/sample-facialrecognition)仓中的代码以Mind Studio安装用户下载至Mind Studio所在Ubuntu服务器的任意目录，例如代码存放路径为：$HOME/sample-facialrecognition。
 
 2.  获取此应用中所需要的原始网络模型。
 
-    参考[表1](#zh-cn_topic_0182554631_table97791025517)获取此应用中所用到的原始网络模型及其对应的权重文件，并将其存放到Mind Studio所在Ubuntu服务器的任意目录，例如$HOME/ascend/models/facialrecognition。
+    参考[表1](#zh-cn_topic_0182554631_table97791025517)获取此应用中所用到的原始网络模型及其对应的权重文件，并将其存放到Mind Studio所在Ubuntu服务器的任意目录，例如：$HOME/ascend/models/facialrecognition。
 
     **表 1**  Facial Recognition中使用模型
 
@@ -92,7 +92,7 @@
 
         此时在DetectionOutput层的Suggestion中选择SSDDetectionOutput，并点击Retry。
 
-        模型转换成功后，后缀为.om的Davinci模型存放地址为$HOME/tools/che/model-zoo/my-model/xxx。
+        模型转换成功后，后缀为.om的Davinci模型存放地址为：$HOME/tools/che/model-zoo/my-model/xxx。
 
 
 4.  将转换好的模型文件（.om文件）上传到[1](#zh-cn_topic_0182554631_li953280133816)中源码所在路径的“sample-facialrecognition/script”目录下。
@@ -102,12 +102,11 @@
 
     执行如下命令在最后一行添加DDK\_HOME及LD\_LIBRARY\_PATH的环境变量。
 
-    **export DDK\_HOME=/home/XXX/tools/che/ddk/ddk**
+    **export DDK\_HOME=$HOME/tools/che/ddk/ddk**
 
     **export LD\_LIBRARY\_PATH=$DDK\_HOME/uihost/lib**
 
-    >![](doc/source/img/icon-note.gif) **说明：**   
-    >-   XXX为Mind Studio安装用户，/home/XXX/tools为DDK默认安装路径。  
+    >![](doc/source/img/icon-note.gif) **说明：**    
     >-   如果此环境变量已经添加，则此步骤可跳过。  
 
     输入:wq!保存退出。
@@ -119,7 +118,7 @@
 
 ## 部署<a name="zh-cn_topic_0182554631_section147911829155918"></a>
 
-1.  以Mind Studio安装用户进入facialrecognition应用代码所在根目录，如/home/ascend/sample-facialrecognition。
+1.  以Mind Studio安装用户进入facialrecognition应用代码所在根目录，如：$HOME/sample-facialrecognition。
 2.  <a name="zh-cn_topic_0182554631_li08019112542"></a>执行部署脚本，进行工程环境准备，包括ascenddk公共库的编译与部署、Presenter Server服务器的配置等操作，其中Presenter Server用于接收Application发送过来的数据并通过浏览器进行结果展示。
 
     **bash deploy.sh** _host\_ip_ _model\_mode_
