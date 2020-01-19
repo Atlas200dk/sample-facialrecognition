@@ -15,11 +15,11 @@
 
 1.  <a name="zh-cn_topic_0203223340_li953280133816"></a>获取源码包。
 
-    将[https://gitee.com/Atlas200DK/sample-facialrecognition/tree/1.3x.0.0/](https://gitee.com/Atlas200DK/sample-facialrecognition/tree/1.3x.0.0/)仓中的代码以Mind Studio安装用户下载至Mind Studio所在Ubuntu服务器的任意目录，例如代码存放路径为：_$HOME/AscendProjects/sample-facialrecognition_。
+    将[https://gitee.com/Atlas200DK/sample-facialrecognition/tree/1.3x.0.0/](https://gitee.com/Atlas200DK/sample-facialrecognition/tree/1.3x.0.0/)仓中的代码以Mind Studio安装用户下载至Mind Studio所在Ubuntu服务器的任意目录，例如代码存放路径为：$HOME/AscendProjects/sample-facialrecognition。
 
 2.  <a name="zh-cn_topic_0203223340_li99811487013"></a>获取此应用中所需要的原始网络模型。
 
-    参考[表1](#zh-cn_topic_0203223340_table97791025517)获取此应用中所用到的原始网络模型及其对应的权重文件，并将其存放到Mind Studio所在Ubuntu服务器的任意目录，这两个文件必须存放到同一个目录下。例如：_$HOME/models/facialrecognition_。
+    参考[表1](#zh-cn_topic_0203223340_table97791025517)获取此应用中所用到的原始网络模型及其对应的权重文件，并将其存放到Mind Studio所在Ubuntu服务器的任意目录，这两个文件必须存放到同一个目录下。例如：$HOME/models/facialrecognition。
 
     **表 1**  Facial Recognition中使用模型
 
@@ -93,7 +93,7 @@
 
         **export tools\_version=_1.31.X.X_**
 
-        **export DDK\_HOME=$HOME/.mindstudio/huawei/ddk/_1.31.X.X_/ddk**
+        **export DDK\_HOME=\\$HOME/.mindstudio/huawei/ddk/\\$tools\_version/ddk**
 
         **export NPU\_DEVICE\_LIB=$DDK\_HOME/../RC/host-aarch64\_Ubuntu16.04.3/lib**
 
@@ -129,7 +129,7 @@
 
                 -   Nodes配置中的“Input Node:data“中的N:8表示人脸识别程序，每次处理8张人脸，此参数需要与“graph\_template.config”中的对应模型的“batch\_size“的值保持一致。
                 -   AIPP配置中的“Input Image Format“：输入图片的格式，此处选择RGB888\_U8。
-                -   AIPP配置中的“Input Image Size\[W|H\]“：因为输入图片格式为RGB8888\_U8，此处不需要做128\*16对齐，直接使用模型要求的宽和高即可，即96与112。
+                -   AIPP配置中的“Input Image Size“：因为输入图片格式为RGB8888\_U8，此处不需要做128\*16对齐，直接使用模型要求的宽和高即可，即96与112。
                 -   AIPP配置中的**“Model Image Format”**：模型图片的格式，此处选择BGR888\_U8。
                 -   AIPP配置中的“Mean Less\[B|G|R\]“：此模型训练使用的图片的均值，可从此模型的sphereface\_model.prototxt文件中获取。
                 -   AIPP配置中的“Multiplying Factor\[B|G|R\]“：此模型训练使用的图片的乘系数，可从此模型的sphereface\_model.prototxt文件中获取，即scale的值。
@@ -144,7 +144,7 @@
 
                 ![](figures/model_facial_4.png)
 
-            -   face\_detection模型中**Input Image Size\[W\]\[H\]**需要分别修改为384,304， 此处需要做128\*16对齐。**Model Image Format**需要选择为BGR888\_U8。其他使用默认值。
+            -   face\_detection模型中**Input Image Size**需要分别修改为384,304， 此处需要做128\*16对齐。**Model Image Format**需要选择为BGR888\_U8。其他使用默认值。
 
                 **图 5**  face\_detection模型转换时非默认配置<a name="zh-cn_topic_0203223340_fig525743174114"></a>  
                 
@@ -162,11 +162,11 @@
 
             此时在**DetectionOutput**层的**Suggestion**中选择**SSDDetectionOutput**，并点击**Retry**。
 
-            模型转换成功后，后缀为.om的离线模型存放地址为_$HOME/modelzoo/XXX__/device_。
+            模型转换成功后，后缀为.om的离线模型存放地址为：$HOME/modelzoo/XXX/device。
 
             >![](public_sys-resources/icon-note.gif) **说明：**   
             >-   Mindstudio模型转换中每一步的具体意义和参数说明可以参考[https://ascend.huawei.com/doc/mindstudio/2.1.0\(beta\)/zh/zh-cn\_topic\_0188462651.html](https://ascend.huawei.com/doc/mindstudio/2.1.0(beta)/zh/zh-cn_topic_0188462651.html)  
-            >-   XXX表示当前转换的模型名称，如face\_detection.om存放地址为$HOME/modelzoo/face\_detection/device。  
+            >-   XXX表示当前转换的模型名称，如face\_detection.om存放地址为：$HOME/modelzoo/face\_detection/device。  
 
 
     -   命令行模式下模型转换。
@@ -193,7 +193,7 @@
 
 1.  打开对应的工程。
 
-    以Mind Studio安装用户在命令行中进入安装包解压后的“MindStudio-ubuntu/bin”目录，如$HOME/MindStudio-ubuntu/bin。执行如下命令启动Mind Studio
+    以Mind Studio安装用户在命令行中进入安装包解压后的“MindStudio-ubuntu/bin”目录，如：$HOME/MindStudio-ubuntu/bin。执行如下命令启动Mind Studio
 
     **./MindStudio.sh**
 
