@@ -177,11 +177,11 @@
         2.  使用omg工具执行以下命令进行模型转换。
 
             ```
-            ${DDK_HOME}/uihost/bin/omg --output="./XXX" --model="./XXX.prototxt" --framework=0 --ddk_version=${tools_version} --weight="./XXX.caffemodel" --input_shape=`head -1 $HOME/AscendProjects/sample-facialrecognition/script/shape_XXX` --insert_op_conf=$HOME/AscendProjects/sample-facialrecognition/script/aipp_XXX.cfg --op_name_map=$HOME/AscendProjects/sample-facialrecognition/script/reassign_operators
+            ${DDK_HOME}/uihost/bin/omg --output="./XXX" --model="./XXX.prototxt" --framework=0 --ddk_version=${tools_version} --weight="./XXX.caffemodel" --input_shape=`head -1 $HOME/AscendProjects/sample-facialrecognition/MyModel/shape_XXX` --insert_op_conf=$HOME/AscendProjects/sample-facialrecognition/MyModel/aipp_XXX.cfg --op_name_map=$HOME/AscendProjects/sample-facialrecognition/MyModel/reassign_operators
             ```
 
             >![](public_sys-resources/icon-note.gif) **说明：**   
-            >-   input\_shape、insert\_op\_conf、op\_name\_map所需要的文件都在源码所在路径下的“sample-facialrecognition/script”目录下，请根据您实际的源码所在路径配置这些文件路径。  
+            >-   input\_shape、insert\_op\_conf、op\_name\_map所需要的文件都在源码所在路径下的“sample-facialrecognition/MyModel”目录下，请根据您实际的源码所在路径配置这些文件路径。  
             >-   **XXX**为[表 Facial Recognition中使用模型](#zh-cn_topic_0203223340_table97791025517)中的模型名称，转换时请替换为实际的模型名称。  
             >-   vanillacnn模型转换时不需要insert\_op\_conf、op\_name\_map参数，sphereface模型转换时不需要op\_name\_map参数，如果没有删除不需要的参数，转换模型时会报错。  
             >-   每个参数的具体意义可以在以下文档中了解[https://ascend.huawei.com/doc/Atlas200DK/1.3.0.0/zh/zh-cn\_topic\_0165968579.html](https://ascend.huawei.com/doc/Atlas200DK/1.3.0.0/zh/zh-cn_topic_0165968579.html)  
