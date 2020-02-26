@@ -38,7 +38,14 @@ check_param_configure()
 
 function build_common()
 {
-	echo "build common lib..."
+    echo "build common lib..."
+    if [ ! -d "${HOME}/ascend_ddk" ];then
+        mkdir $HOME/ascend_ddk
+        if [[ $? -ne 0 ]];then
+            echo "ERROR: Execute mkdir command failed, Please check your environment"
+            return 1
+        fi
+    fi
     bash ${script_path}/build_ezdvpp.sh ${remote_host}
     if [ $? -ne 0 ];then
         echo "ERROR: Failed to deploy ezdvpp"
@@ -53,12 +60,38 @@ function build_common()
     return 0
 }
 
+function check_facial_recognition_proto_version()
+{
+    pb_h_file=$app_path/FaceRegister/facial_recognition_message.pb.h
+    proto_file=$app_path/FaceRegister/facial_recognition_message.proto
+    proto_dir=$app_path/FaceRegister
+
+    check_proto_version $pb_h_file $proto_file
+    if [ $? -eq 1 ];then
+        echo "ERROR: check facial recognition proto code failed"
+        return 1
+    fi
+
+    cp -f $proto_dir/facial_recognition_message.pb.h $app_path/Custom/
+    cp -f $proto_dir/facial_recognition_message.pb.cc $app_path/FacePostProcess/
+
+    echo "Regenerate proto code success"
+    return 0   
+}
 
 function main()
 {
     echo "Modify param information in graph.config..."
     check_param_configure
     if [ $? -ne 0 ];then
+        echo "ERROR: modify param information in graph.config failed" 
+        return 1
+    fi
+
+    echo "Check facial recognittion proto"
+    check_facial_recognition_proto_version
+    if [ $? -ne 0 ];then
+        echo "ERROR: check facial recognittion proto failed"
         return 1
     fi
 
