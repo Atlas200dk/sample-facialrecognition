@@ -155,7 +155,7 @@ Before running the application, obtain the source code package and configure the
                   **Figure 5**  The non-default configuration for **face\_detection**<a name="zh-cn_topic_0203223340_fig525743174114"></a>  
                 
 
-                 ![](figures/model_facial_5.png)
+                  ![](figures/model_facial_5.png)
 
           3.  lick **OK** to start model conversion.
 
@@ -230,7 +230,7 @@ Before running the application, obtain the source code package and configure the
     Following parameter configuration needs to be added manually：
 
     -   remote\_host：this parameter indicates the IP address of Atlas 200 DK developer board.
-    -   data\_source: 配置为摄像头所属Channel，取值为Channel-1或者Channel-2，查询摄像头所属Channel的方法请参考[Atlas 200 DK使用指南](https://ascend.huawei.com/doc)中的“如何查看摄像头所属Channel”。
+    -   data\_source: configure the channel to which the camera belongs, the value can be **Channel-1** or **Channel-2**. For checking the channel to which camera belongs, refer to "**How to check the Channel to which the camera belongs **"[Atlas 200 DK User Guidance](https://ascend.huawei.com/doc).
     -   presenter\_view\_app\_name: The user-defined View Name on the PresenterServer interface, this View Name needs to be unique  on the Presenter Server. It can only be a combination of uppercase and lowercase letters, numbers, and "\_", with a digit of 3 \~20.
 
      An example of video file configuration is as follows:
@@ -257,7 +257,7 @@ Before running the application, obtain the source code package and configure the
 
 4.  <a name="zh-cn_topic_0203223340_li1364788188"></a>Start Presenter Server.
 
-     Open **Terminal** of **Mind Studio** tool, it is in the path where code saved in [Step 1] by default(#zh-cn_topic_0203223340_li953280133816), run the following command to start the **Presenter Server** main program of the **_facialrecognition_** application, as shown in [Figure 10](#zh-cn_topic_0203223340_fig156364995016)所示。
+     Open **Terminal** of **Mind Studio** tool, it is in the path where code saved in [Step 1] by default(#zh-cn_topic_0203223340_li953280133816), run the following command to start the **Presenter Server** main program of the **_facialrecognition_** application, as shown in [Figure 10](#zh-cn_topic_0203223340_fig156364995016).
 
     **bash run\_present\_server.sh**
 
@@ -350,7 +350,7 @@ Before running the application, obtain the source code package and configure the
 
     ![](figures/facial_stopping.png)
 
-    The application has been stopped as shown in [Figure 19](#zh-cn_topic_0203223340_fig5786125319165)所示应用程序已停止运行
+    The application has been stopped as shown in [Figure 19](#zh-cn_topic_0203223340_fig5786125319165).
 
     **Figure 19**  **Facial Recognition** has been stopped<a name="zh-cn_topic_0203223340_fig5786125319165"></a>  
     
