@@ -140,19 +140,19 @@ Before running the application, obtain the source code package and configure the
                   -   Set  **Mean Less[B|G|R]**  in AIPP configuration to the mean value of the images used in the model training. The value can be obtained from the  **sphereface\_model.prototxt**  file of the model.
                   -   Set  **Multiplying Factor[B|G|R]** in AIPP configuration to the multiplication factor of the images used in the model training. The value can be obtained from the** sphereface\_model.prototxt**  file of the model, that is, the value of  **scale**. 
 
-                  **图 3**  Nodes configuration for **SpherefaceModel** conversion<a name="zh-cn_topic_0203223340_fig188415461909"></a>  
+                  **Figure 3**  Nodes configuration for **SpherefaceModel** conversion<a name="zh-cn_topic_0203223340_fig188415461909"></a>  
                 
 
                   ![](figures/model_facial_3.png)
 
-                  **图 4**  AIPP configuration for **SpherefaceModel** conversion<a name="zh-cn_topic_0203223340_fig159362210546"></a>  
+                  **Figure 4**  AIPP configuration for **SpherefaceModel** conversion<a name="zh-cn_topic_0203223340_fig159362210546"></a>  
                 
 
                   ![](figures/model_facial_4.png)
 
               -   **Input Image Size** in **face\_detection** model needs to be set to 384,304，  128 \*16 alignment is required here, for **Model Image Format**, select BGR888\_U8, other parameters retain the default vaule.
 
-                  **图 5**  The non-default configuration for **face\_detection**<a name="zh-cn_topic_0203223340_fig525743174114"></a>  
+                  **Figure 5**  The non-default configuration for **face\_detection**<a name="zh-cn_topic_0203223340_fig525743174114"></a>  
                 
 
                  ![](figures/model_facial_5.png)
@@ -267,7 +267,7 @@ Before running the application, obtain the source code package and configure the
     ![](figures/facial_run_1.png)
 
     -   When the message "Please choose one to show the presenter in browser (default: 127.0.0.1):" is displayed, enter the IP address used for accessing the Presenter Server service in the browser. Generally, the IP address is the IP address for accessing the Mind Studio service.
-    -   当提示“Please input a absolute path to storage facial recognition data:“时，请输入Mind Studio中存储人脸注册数据及解析数据，此路径Mind Studio用户需要有读写权限，如果此路径不存在，脚本会自动创建。
+    -   When the message  "**Please input a absolute path to storage facial recognition data:**" ,is displayed, enter the path for storing face registration data and parsing data in **Mind Studio**. The **Mind Studio** user must have the read and write permissions. If the path does not exist, the script is automatically created.
 
     As shown in [Figure 11](#zh-cn_topic_0203223340_fig157571218181018), Select the IP address used by the browser to access the Presenter Server service in "Current environment valid ip list" and enter the path for face detection parsing data.
 
@@ -277,92 +277,91 @@ Before running the application, obtain the source code package and configure the
 
     ![](figures/facial_run_2.png)
 
-    如[图12](#zh-cn_topic_0203223340_fig123741843161320)所示，表示presenter\_server的服务启动成功。
+    As shown in [Figure 12](#zh-cn_topic_0203223340_fig123741843161320),  it means **presenter\_server** service starts successfully.
 
-    **图 12**  Presenter Server进程启动<a name="zh-cn_topic_0203223340_fig123741843161320"></a>  
+    **Figure 12** Starting the **Presenter Server** process<a name="zh-cn_topic_0203223340_fig123741843161320"></a>  
     
 
     ![](figures/facial_runOK.png)
 
-    使用上图提示的URL登录Presenter Server（仅支持Chrome浏览器），IP地址为[图11](#zh-cn_topic_0203223340_fig157571218181018)中输入的IP地址，端口号默为7009，如下图所示，表示Presenter Server启动成功。
+    Use the URL shown in the preceding figure to log in to Presenter Server (only the Chrome browser is supported). The IP address is that entered in  [Figure 11](#zh-cn_topic_0203223340_fig157571218181018) and the default port number is 7009. The following figure indicates that Presenter Server is started successfully.
+    
 
-    **图 13**  主页显示<a name="zh-cn_topic_0203223340_fig98461795813"></a>  
-    ![](figures/主页显示.png "主页显示")
+    **Figure 13**  Home page<a name="zh-cn_topic_0203223340_fig98461795813"></a>  
+    ![](figures/主页显示.png "Home page")
 
-    Presenter Server、Mind Studio与Atlas 200 DK之间通信使用的IP地址示例如下图所示：
+    The following figure shows the IP address used by the **Presenter Server** and **Mind Studio** to communicate with the Atlas 200 DK.
 
-    **图 14**  IP地址示例<a name="zh-cn_topic_0203223340_fig1627210116351"></a>  
-    ![](figures/IP地址示例.png "IP地址示例")
+    **图 14**  Example IP Address<a name="zh-cn_topic_0203223340_fig1627210116351"></a>  
+    ![](figures/IP地址示例.png "Example IP Address")
 
-    其中：
-
-    -   Atlas 200 DK开发者板使用的IP地址为192.168.1.2（USB方式连接）。
-    -   Presenter Server与Atlas 200 DK通信的IP地址为UI Host服务器中与Atlas 200 DK在同一网段的IP地址，例如：192.168.1.223。
-    -   通过浏览器访问Presenter Server的IP地址本示例为：10.10.0.1，由于Presenter Server与Mind Studio部署在同一服务器，此IP地址也为通过浏览器访问Mind Studio的IP。
+    -   The IP address of the Atlas 200 DK developer board is 192.168.1.2 (connected in USB mode).
+    -   The IP address used by the **Presenter Server** to communicate with the Atlas 200 DK is in the same network segment as the IP address of the Atlas 200 DK on the UI Host server. For example: 192.168.1.223.
+    -   The following is an example of accessing the IP address of the **Presenter Server** using a browser: 10.10.0.1, because the Presenter Server and **Mind Studio** are deployed on the same server, the IP address is also the IP address for accessing the Mind Studio through the browser.
 
 
-## 运行<a name="zh-cn_topic_0203223340_section1676879104"></a>
+## Running<a name="zh-cn_topic_0203223340_section1676879104"></a>
 
-1.  运行人脸识别应用程序。
+1.  Run the Facial Recognition application
 
-    在Mind Studio工具的工具栏中找到Run按钮，点击**Run \> Run 'sample-facialrecognition'**，如[图15](#zh-cn_topic_0203223340_fig182957429910)所示，可执行程序已经在开发者板执行。
+    Find **Run** button in the toolbar of **Mind Studio** tool, click **Run \> Run 'sample-facialrecognition'**, as shown in [Figure 15](#zh-cn_topic_0203223340_fig182957429910), the executable program has been executed on the developer board.
 
-    **图 15**  程序已执行示意图<a name="zh-cn_topic_0203223340_fig182957429910"></a>  
+    **Figure 15**   Executed program<a name="zh-cn_topic_0203223340_fig182957429910"></a>  
     
 
     ![](figures/facial_run3.png)
 
-2.  使用启动Presenter Server服务时提示的URL登录 Presenter Server 网站，详细可参考[启动Presenter Server](#zh-cn_topic_0203223340_li1364788188)  ,仅支持Chrome浏览器。
+2.   Log in to the **Presenter Server** website using the URL promoted when starting the **Presenter Server** service（only supports Chrome browser）, for details, please refer to [Step 4](#zh-cn_topic_0203223340_li1364788188) .
 
-    Presenter Server展示界面如[图16](#zh-cn_topic_0203223340_fig1189774382115)所示。
+      Web page for **Presenter Server** is shown as [Figure 16](#zh-cn_topic_0203223340_fig1189774382115).
 
-    **图 16**  Presenter Server界面<a name="zh-cn_topic_0203223340_fig1189774382115"></a>  
-    ![](figures/Presenter-Server界面.png "Presenter-Server界面")
+     **图 16**   Web page for **Presenter Server**<a name="zh-cn_topic_0203223340_fig1189774382115"></a>  
+     ![](figures/Presenter-Server界面.png "Web page for **Presenter Server**")
 
-    >![](public_sys-resources/icon-note.gif) **说明：**   
-    >-   Facial Recognition的Presenter Server最多支持2路Channel同时显示，每个  _presenter\_view\_app\_name_  对应一路Channel。  
-    >-   由于硬件的限制，每一路支持的最大帧率是20fps，受限于网络带宽的影响，帧率会自动适配较低的帧率进行显示。  
+     >![](public_sys-resources/icon-note.gif) **NOTE：**   
+     >-   **Presenter Server** of Facial Recognition supports up to two Channels for display at the same time, each ** _presenter\_view\_app\_name_** corresponds to one Channel.
+     >-   Due to hardware limitations, the maximum frame rate supported by each channel is 20fps, a lower frame rate is automatically used when the network bandwidth is low.
+3.  Facial registration
+    1.  Click the **Face Library** tab and enter a user name in the **Username** text box.
 
-3.  进行人脸注册。
-    1.  点击“Face Library“页签，在界面中输入“Username“。
+        **Figure 17**  Facial registration page<a name="zh-cn_topic_0203223340_fig12445181112163"></a>  
+        ![](figures/人脸注册界面.png "Facial registration page")
 
-        **图 17**  人脸注册界面<a name="zh-cn_topic_0203223340_fig12445181112163"></a>  
-        ![](figures/人脸注册界面.png "人脸注册界面")
+    2.  Click **Browse** to upload a face image. Crop the face image based on the ratio of **Example Photo**.
 
-    2.  单击“Browse“按钮，上传人脸图像，人脸图像裁剪时尽量按照“Example Photo“的比例设置。
-
-    1.  点击Submit按钮上传若上传失败，可以更改裁剪比例。
-
-4.  人脸识别以及比对。
-
-    进入“App List“页签，在界面中点击对应的“App Name“，例如  _video_  ，若有人脸出现在摄像头中，且与已注册人脸匹配一致，则会出现对应人员姓名及相似度的标注。
+    1.  Click **Submit**. If the upload fails, you can change the cropping ratio.
 
 
-## 后续处理<a name="zh-cn_topic_0203223340_section1092612277429"></a>
+4.  Facial recognition and comparison.
+  
+    On the **App List** tab page, click ** _video_** for example in the **App Name** column. If a face is displayed in the camera and matches the registered face, the name and similarity information of the person are displayed.
+   
 
--   **停止人脸识别应用**
+## Follow-up Operations<a name="zh-cn_topic_0203223340_section1092612277429"></a>
 
-    Facial Recognition应用执行后会处于持续运行状态，若要停止Facial Recognition应用程序，可执行如下操作。
+-   **Stopping the Facial Recognition Application**
 
-    单击[图18 停止Facial Recognition应用](#zh-cn_topic_0203223340_fig12461162791610)所示的停止按钮停止Facial Recognition应用程序。
+    **Facial Recognition** is running continually after being executed. To stop it, perform the following operation:
 
-    **图 18**  停止Facial Recognition应用<a name="zh-cn_topic_0203223340_fig12461162791610"></a>  
+    Click the button shown in [Figure 18](#zh-cn_topic_0203223340_fig12461162791610) to stop **Facial Recognition**.
+
+    **图 18**  Stopping **Facial Recognition** application<a name="zh-cn_topic_0203223340_fig12461162791610"></a>  
     
 
     ![](figures/facial_stopping.png)
 
-    如[图19](#zh-cn_topic_0203223340_fig5786125319165)所示应用程序已停止运行
+    The application has been stopped as shown in [Figure 19](#zh-cn_topic_0203223340_fig5786125319165)所示应用程序已停止运行
 
-    **图 19**  Facial Recognition应用已停止<a name="zh-cn_topic_0203223340_fig5786125319165"></a>  
+    **Figure 19**  **Facial Recognition** has been stopped<a name="zh-cn_topic_0203223340_fig5786125319165"></a>  
     
 
     ![](figures/facial_stopped.png)
 
--   **停止Presenter Server服务**
+-   **Stopping the Presenter Server Service**
 
-    Presenter Server服务启动后会一直处于运行状态，若想停止人脸识别应用对应的Presenter Server服务，可执行如下操作。
+    The Presenter Server service is always in the running state after being started. To stop the Presenter Server service of the facial recognition application, perform the following operations:
 
-    以Mind Studio安装用户在Mind Studio所在服务器中执行如下命令查看人脸识别应用对应的Presenter Server服务的进程。
+    Run the following command to check the process of the **Presenter Server** service corresponding to the facial recognition application in **Mind Studio** as the **Mind Studio** installation user:
 
     **ps -ef | grep presenter | grep facial\_recognition**
 
@@ -371,9 +370,9 @@ Before running the application, obtain the source code package and configure the
     ascend 22294 20313 22 14:45 pts/24?? 00:00:01 python3 presenterserver/presenter_server.py --app facial_recognition
     ```
 
-    如上所示  _22294_  即为人脸识别应用对应的Presenter Server服务的进程ID。
+    Where  _22294_  indicates the process ID of the **Presenter Server** service corresponding to the facial recognition application.
 
-    若想停止此服务，执行如下命令：
+    To stop the service, run the following command:
 
     **kill -9** _22294_
 
