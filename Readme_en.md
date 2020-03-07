@@ -157,7 +157,7 @@ Before running the application, obtain the source code package and configure the
 
                   ![](figures/model_facial_5.png)
 
-          3.  lick **OK** to start model conversion.
+          3.  Click **OK** to start model conversion.
 
               During the conversion of the  **face\_detection**, the following error will be reported, as shown in [Figure 6](#zh-cn_topic_0203223340_fig19683520164211).
 
@@ -180,7 +180,7 @@ Before running the application, obtain the source code package and configure the
          1.  Enter the folder where the source model is saved as the Mind Studio installation user.
 
 
-            **cd $HOME/ascend/models/facialrecognition**
+             **cd $HOME/ascend/models/facialrecognition**
 
          2.  Using omg tool to run the following command to perform model conversion.
 
@@ -212,7 +212,7 @@ Before running the application, obtain the source code package and configure the
 
 2.  Configure related project information in the **src/param\_configure.conf**.
 
-    As shown in (#zh-cn_topic_0203223340_fig1338571124515).
+    As shown in [Figure 8](#zh-cn_topic_0203223340_fig1338571124515).
 
     **Figure 8**  Configuration file path<a name="zh-cn_topic_0203223340_fig1338571124515"></a>  
     
@@ -245,7 +245,7 @@ Before running the application, obtain the source code package and configure the
     >-   All the three parameters must be filled in, otherwise build cannot be passed.
     >-   Note that the "" symbol is no need to be used when filling in parameters.
 
-3.  Begin to compile, open **Mind Studio** tool, click **Build \> Build \> Build-Configuration** in the toolbar, shown as [Figure 9]#zh-cn_topic_0203223340_fig1629455494718), **build** and **run** folders will be generated under the directory.
+3.  Begin to compile, open **Mind Studio** tool, click **Build \> Build \> Build-Configuration** in the toolbar, shown as [Figure 9](#zh-cn_topic_0203223340_fig1629455494718), **build** and **run** folders will be generated under the directory.
 
     **Figure 9**  Compilation operation and generated files<a name="zh-cn_topic_0203223340_fig1629455494718"></a>  
     ![](figures/编译操作及生成文件.png "Compilation operation and generated files")
@@ -292,7 +292,7 @@ Before running the application, obtain the source code package and configure the
 
     The following figure shows the IP address used by the **Presenter Server** and **Mind Studio** to communicate with the Atlas 200 DK.
 
-    **图 14**  Example IP Address<a name="zh-cn_topic_0203223340_fig1627210116351"></a>  
+    **Figure 14**  Example IP Address<a name="zh-cn_topic_0203223340_fig1627210116351"></a>  
     ![](figures/IP地址示例.png "Example IP Address")
 
     -   The IP address of the Atlas 200 DK developer board is 192.168.1.2 (connected in USB mode).
@@ -315,7 +315,7 @@ Before running the application, obtain the source code package and configure the
 
       Web page for **Presenter Server** is shown as [Figure 16](#zh-cn_topic_0203223340_fig1189774382115).
 
-     **图 16**   Web page for **Presenter Server**<a name="zh-cn_topic_0203223340_fig1189774382115"></a>  
+     **Figure 16**   Web page for **Presenter Server**<a name="zh-cn_topic_0203223340_fig1189774382115"></a>  
      ![](figures/Presenter-Server界面.png "Web page for **Presenter Server**")
 
      >![](public_sys-resources/icon-note.gif) **NOTE：**   
@@ -345,7 +345,7 @@ Before running the application, obtain the source code package and configure the
 
     Click the button shown in [Figure 18](#zh-cn_topic_0203223340_fig12461162791610) to stop **Facial Recognition**.
 
-    **图 18**  Stopping **Facial Recognition** application<a name="zh-cn_topic_0203223340_fig12461162791610"></a>  
+    **Figure 18**  Stopping **Facial Recognition** application<a name="zh-cn_topic_0203223340_fig12461162791610"></a>  
     
 
     ![](figures/facial_stopping.png)
