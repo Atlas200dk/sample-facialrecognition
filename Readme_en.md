@@ -230,7 +230,7 @@ Before running the application, obtain the source code package and configure the
     Following parameter configuration needs to be added manually：
 
     -   remote\_host：this parameter indicates the IP address of Atlas 200 DK developer board.
-    -   data\_source: configure the channel to which the camera belongs, the value can be **Channel-1** or **Channel-2**. For checking the channel to which camera belongs, refer to "**How to check the Channel to which the camera belongs **"[Atlas 200 DK User Guidance](https://ascend.huawei.com/doc).
+    -   data\_source: configure the channel to which the camera belongs, the value can be **Channel-1** or **Channel-2**. For checking the channel to which camera belongs, refer to **"View the Channel to which the camera belongs"**[Atlas 200 DK User Guidance](https://ascend.huawei.com/doc).
     -   presenter\_view\_app\_name: The user-defined View Name on the PresenterServer interface, this View Name needs to be unique  on the Presenter Server. It can only be a combination of uppercase and lowercase letters, numbers, and "\_", with a digit of 3 \~20.
 
      An example of video file configuration is as follows:
