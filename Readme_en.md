@@ -142,7 +142,7 @@ Before using an open source application, ensure that:
 
 1.  Run the Facial Recognition application
 
-    Find **Run** button in the toolbar of **Mind Studio** tool, click **Run \> Run 'sample-facialrecognition'**, as shown in [Figure 15](#zh-cn_topic_0203223340_fig182957429910), the executable program has been executed on the developer board.
+    Find **Run** button in the toolbar of **Mind Studio** tool, click **Run \> Run 'sample-facialrecognition'**, as shown in [Figure 10](#zh-cn_topic_0203223340_fig182957429910), the executable program has been executed on the developer board.
 
     **Figure 10**   Executed program<a name="zh-cn_topic_0203223340_fig182957429910"></a>  
     
