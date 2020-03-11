@@ -83,7 +83,7 @@ Before using an open source application, ensure that:
     >-   Select the HOST IP connected to the developer board when deploying, which is usually the IP of virtual network card. If this IP belongs to the same segment as the developer board IP, it will be selected automatically and deployed. Otherwise, manual entering the IP connected to developer board is required for deployment.
 
 
-3.  Begin to compile, open **Mind Studio** tool, click **Build \> Build \> Build-Configuration** in the toolbar, shown as [Figure 4](#zh-cn_topic_0203223340_fig1629455494718), **build** and **run** folders will be generated under the directory.
+4.  Begin to compile, open **Mind Studio** tool, click **Build \> Build \> Build-Configuration** in the toolbar, shown as [Figure 4](#zh-cn_topic_0203223340_fig1629455494718), **build** and **run** folders will be generated under the directory.
 
     **Figure 4**  Compilation operation and generated files<a name="zh-cn_topic_0203223340_fig1629455494718"></a>  
     ![](figures/编译操作及生成文件.png "Compilation operation and generated files")
@@ -125,12 +125,12 @@ Before using an open source application, ensure that:
     Use the URL shown in the preceding figure to log in to Presenter Server (only the Chrome browser is supported). The IP address is that entered in  [Figure 6](#zh-cn_topic_0203223340_fig157571218181018) and the default port number is 7009. The following figure indicates that Presenter Server is started successfully.
     
 
-    **Figure 13**  Home page<a name="zh-cn_topic_0203223340_fig98461795813"></a>  
+    **Figure 8**  Home page<a name="zh-cn_topic_0203223340_fig98461795813"></a>  
     ![](figures/主页显示.png "Home page")
 
     The following figure shows the IP address used by the **Presenter Server** and **Mind Studio** to communicate with the Atlas 200 DK.
 
-    **Figure 14**  Example IP Address<a name="zh-cn_topic_0203223340_fig1627210116351"></a>  
+    **Figure 9**  Example IP Address<a name="zh-cn_topic_0203223340_fig1627210116351"></a>  
     ![](figures/IP地址示例.png "Example IP Address")
 
     -   The IP address of the Atlas 200 DK developer board is 192.168.1.2 (connected in USB mode).
@@ -144,16 +144,16 @@ Before using an open source application, ensure that:
 
     Find **Run** button in the toolbar of **Mind Studio** tool, click **Run \> Run 'sample-facialrecognition'**, as shown in [Figure 15](#zh-cn_topic_0203223340_fig182957429910), the executable program has been executed on the developer board.
 
-    **Figure 15**   Executed program<a name="zh-cn_topic_0203223340_fig182957429910"></a>  
+    **Figure 10**   Executed program<a name="zh-cn_topic_0203223340_fig182957429910"></a>  
     
 
     ![](figures/facial_run3.png)
 
-2.   Log in to the **Presenter Server** website using the URL promoted when starting the **Presenter Server** service（only supports Chrome browser）, for details, please refer to [Step 4](#zh-cn_topic_0203223340_li1364788188) .
+2.   Log in to the **Presenter Server** website using the URL promoted when starting the **Presenter Server** service（only supports Chrome browser）, for details, please refer to [Step 5](#zh-cn_topic_0203223340_li1364788188) .
 
-      Web page for **Presenter Server** is shown as [Figure 16](#zh-cn_topic_0203223340_fig1189774382115).
+      Web page for **Presenter Server** is shown as [Figure 11](#zh-cn_topic_0203223340_fig1189774382115).
 
-     **Figure 16**   Web page for **Presenter Server**<a name="zh-cn_topic_0203223340_fig1189774382115"></a>  
+     **Figure 11**   Web page for **Presenter Server**<a name="zh-cn_topic_0203223340_fig1189774382115"></a>  
      ![](figures/Presenter-Server界面.png "Web page for **Presenter Server**")
 
      >![](public_sys-resources/icon-note.gif) **NOTE：**   
@@ -162,7 +162,7 @@ Before using an open source application, ensure that:
 3.  Facial registration
     1.  Click the **Face Library** tab and enter a user name in the **Username** text box.
 
-        **Figure 17**  Facial registration page<a name="zh-cn_topic_0203223340_fig12445181112163"></a>  
+        **Figure 12**  Facial registration page<a name="zh-cn_topic_0203223340_fig12445181112163"></a>  
         ![](figures/人脸注册界面.png "Facial registration page")
 
     2.  Click **Browse** to upload a face image. Crop the face image based on the ratio of **Example Photo**.
@@ -181,16 +181,16 @@ Before using an open source application, ensure that:
 
     **Facial Recognition** is running continually after being executed. To stop it, perform the following operation:
 
-    Click the button shown in [Figure 18](#zh-cn_topic_0203223340_fig12461162791610) to stop **Facial Recognition**.
+    Click the button shown in [Figure 13](#zh-cn_topic_0203223340_fig12461162791610) to stop **Facial Recognition**.
 
-    **Figure 18**  Stopping **Facial Recognition** application<a name="zh-cn_topic_0203223340_fig12461162791610"></a>  
+    **Figure 13**  Stopping **Facial Recognition** application<a name="zh-cn_topic_0203223340_fig12461162791610"></a>  
     
 
     ![](figures/facial_stopping.png)
 
-    The application has been stopped as shown in [Figure 19](#zh-cn_topic_0203223340_fig5786125319165).
+    The application has been stopped as shown in [Figure 14](#zh-cn_topic_0203223340_fig5786125319165).
 
-    **Figure 19**  **Facial Recognition** has been stopped<a name="zh-cn_topic_0203223340_fig5786125319165"></a>  
+    **Figure 14**  **Facial Recognition** has been stopped<a name="zh-cn_topic_0203223340_fig5786125319165"></a>  
     
 
     ![](figures/facial_stopped.png)
