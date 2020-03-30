@@ -79,7 +79,7 @@ Before running the application, obtain the source code package and configure the
             -   For **Input Shape**,  **N:8**  indicates that 8 images are processed each time for the facial recognition application. The value of this parameter must be the same as the value of  **batch\_size**  of the corresponding model in  **graph.config**.
             -   Set **Input Image Format** to  **RGB888\_U8**.
             -   Set  **Input Image Size[W|H]**  to  **96**  and  **112**. In this example, the input image format is  **RGB8888\_U8**. Therefore, 128 x 16 alignment is not required.
-            -   Set  **Mean Less[B|G|R]**  to the mean value of the images used in the model training. The value can be obtained from the  **sphereface\_model.prototxt**  file of the model.
+            -   Set  **Mean Less[B|G|R]**  to the man value of the images used in the model training. The value can be obtained from the  **sphereface\_model.prototxt**  file of the model.
             -   Set  **Multiplying Factor[B|G|R]**  to the multiplication factor of the images used in the model training. The value can be obtained from the** sphereface\_model.prototxt**  file of the model, that is, the value of  **scale**.
 
 
