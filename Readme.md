@@ -23,7 +23,7 @@ You can use either of the following methods:
     >-   The quick deployment script can be used to deploy multiple samples rapidly. Select  **facialrecognition**.  
     >-   The quick deployment script automatically completes code download, model conversion, and environment variable configuration. To learn about the detailed deployment process, go to  [2. Common deployment](#en-us_topic_0228461922_li10170621131715).  
 
-2.  <a name="en-us_topic_0228461922_li10170621131715"></a>Common deployment: visit  [https://github.com/Atlas200dk/sample-README/tree/master/sample-facialrecognition](https://github.com/Atlas200dk/sample-READEME/tree/master/sample-facialrecognition).
+2.  <a name="en-us_topic_0228461922_li10170621131715"></a>Common deployment: visit  [https://github.com/Atlas200dk/sample-README/tree/master/sample-facialrecognition](https://github.com/Atlas200dk/sample-README/tree/master/sample-facialrecognition).
 
     >![](public_sys-resources/icon-note.gif) **NOTE:**   
     >-   In this deployment mode, you need to manually download code, convert models, and configure environment variables. After that, you will have a better understanding of the process.  
